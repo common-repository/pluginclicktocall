@@ -1,0 +1,13 @@
+ribbit:
+  endpoint: https://rest.ribbit.com/rest/1.0/
+  application_id: 
+  account_id:
+  consumer_key: 
+  secret_key: 
+  domain: 
+  log: false
+http_proxy:
+  address:
+  username:
+  password:
+ 

@@ -1,0 +1,142 @@
+README file for Ribbit PHP library
+
+Version 1.6.0
+Build date March 1 2010
+
+For more details please visit http://developer.ribbit.com
+Built against the Ribbit REST API version 1.6
+
+License
+	The Ribbit PHP library is released with a BSD license. You are welcome to 
+	use it as you see fit both privately and commercially, and to use it to 
+	create derivative works provided you follow the licensing terms which 
+	can be found in each source file. 
+	For further details see http://www.linfo.org/bsdlicense.html
+
+External libraries
+	The Ribbit PHP library gratefully uses sypc.php to parse YAML (http://code.google.com/p/spyc/)
+
+Known Dependencies
+	Requires PHP 5.2.0 or greater and php_curl extension
+	You will also need an application ID, consumer key, shared secret, domain and account Id which can be acquired
+	from http://developer.ribbit.com
+
+Notes
+	The Ribbit library uses the PHP Session to store OAuth Access tokens.
+	It is recommended that you include the line 
+
+		require_once("path_to_ribbit_library/Ribbit.php");
+
+	before you start issuing HTTP response text to avoid session cache
+	limiter warnings
+	
+	The PHP 1.6.0 library uses yaml files for configuration. Your configuration will
+	need to be changed if you are upgrading from a previous release.
+	
+Changelog
+
+	Version 1.6.0
+		* BREAKING - RibbitMediaFiles->getFolder() has been replaced by RibbitMediaFiles->getFilesInFolder()
+		* BREAKING - RibbitDomain->getDomains() has been removed, please use RibbitDomain->getDomain()
+		* The logoff method now terminates the session on the Ribbit server.  To remove the current Ribbit user session credentials only,
+		  without terminating the session on the server, please use logoff(false)
+		* New methods in RibbitDevices to find and allocate Inbound Numbers.  Inbound numbers can be found via locale and/or specific number sequences
+		* A new property, locale, eg "en_US" has been added to the User Resource and can be updated via updateUser
+
+	Version 1.5.5
+		* Addition of Services resource, and getTranscriptionForFile in the Media Resource
+		* Support for impersonation of other users by domain administrators
+
+	Version 1.5.4.1
+		* Addition of getAuthenticatedUser, checkAuthenticatedUser methods for 3-legged OAuth implementation
+		* Addition of Labels resource
+		* Addition of CallInitiatedNotification
+		* Deprecated getFileInFolder on the Media resource.  Replaced by downloadFile
+		
+	Version 1.5.4
+		BREAKING - Renamed ResourceAlreadyExistsException to ResourceConflictException
+		Addition of .htaccess file to secure configuration file.
+		Addition of isLoggedIn and getUser (for currently logged on user) to Ribbit class
+
+	Version 1.5.3.1
+		* autoAnswer and allowCCF properties on devices.
+		
+	Version 1.5.3.0
+		BREAKING CHANGES
+			* The RibbitMessageFilters class has been removed - use constants available in RibbitMessage instead.
+			  Additional filters are available in other classes.
+		OTHER CHANGES
+			* Play media, record audio, and collect dtmf features now available
+			* The introduction of typed CallbackNotifications to serialize POSTs sent by the Ribbit REST server
+				
+	Version 1.5.2.5
+		Server response text now passed in RibbitException->getMessage on 400 error responses
+
+	Version 1.5.2.4
+		BREAKING CHANGES
+			* methods that update calls now return boolean values - some previously failed, and some returned an array
+			* if you relied on the output of one of these methods, you'll have to use getCall to get the details 
+		OTHER CHANGES	
+			* All configuration details are now stored in the php Session, including Application configuration and user tokens
+			* If Ribbit::setApplication is called and the application credentials are different to those in configuration, the user is logged off
+			* the following changes are for consistency with other Ribbit libraries
+				* Ribbit::getCurrentUser is deprecated - use Ribbit::getUserName;
+				* Ribbit::getCurrentUserId is deprecated - use Ribbit::getUserId;
+				* Ribbit::getUserAccessToken is deprecated - use Ribbit::getAccessToken;
+				* Ribbit::getUserSecretKey is deprecated - use Ribbit::getAccessSecret;
+				* Ribbit::setUserCredentials is deprecated - use Ribbit::setUser;
+
+	Version 1.5.2.3
+		* Removed Account
+		* Removed removeUser 
+		* Fix to hangupCall so that it now PUTs active:false
+		* New method getMessage that takes a folder parameter
+		* updateMessage takes a folder parameter, as do markMessageNew and markMessageUrgent
+		* fix to updateApplication so that domain and applicationId are not included in JSON
+		* Where domain and applicationId appear in method signatures they default from config if not set.
+
+
+	Version 1.5.2.2
+		BREAKING CHANGES:
+			* Configuration methodology change to use a yaml file rather than a php file.
+			* Domain and AccountId added to configuration.
+			* Where used in methods, items that are set in configuration are not required, the
+				configured values are used.
+			* Removal of resource specific exceptions, replaced with generic ones.
+			* Parameter reordering across Account, account_id is now generally the last parameter
+			* Method RibbitCall->createCall changed to allows use of n-legged call feature
+			* New method RibbitCall->createThirdPartyCall is a replacement for the previous 
+				version of RibbitCall->createCall
+			* Change of method name setDeviceFlags to updateDevice, and some parameter re-ordering.		
+			* Change of method signature RibbitUser->updateUserSettings to updateUser
+			* Name now required when creating a device or inbound number.
+		Notable other changes:
+			* Ability to change application credentials at run time, to allow multi tenanted apps.
+			* Ability to retrieve and set User tokens (which expire after a given time)
+			* New way to invoke methods, handy for methods with long signatures;
+				Ribbit->exec("resource"=>"Users","method"=>"getUser","params"=>array("user_id"=$user_id"));
+			* All configuration values are now stored in the users PHP session, no need to reset on each request.
+			* Ability to use an HTTP Proxy.
+		
+
+	Version 1.0.4.3 (2009-04-14)
+		Fix to createInboundNumber.
+
+	Version 1.0.4.2 (2009-04-09)
+		Bug fix to broken session persistence	
+	
+	Version 1.0.4.1 (2009-04-08)
+		Config file changed to reflect values used on developer portal
+		Improvements to URI construction when logging in a user
+
+	Version 1.0.4.0 (2009-04-03)
+		Changes to reflect REST build 1.0.4, including the introduction of
+		Domains, and use of hex strings for user ids
+		Introduction of paging and filtering when retrieveing calls or messages
+		Introduction of getUsersFilteredByLogin to determine a user id.
+		Introduction of Accounts resource
+		Introduction of Application Notification URL
+		Fixes to remove E_STRICT PHP errors
+				
+	Version 1.0.3.0 (2009-02-27)
+		Initial release

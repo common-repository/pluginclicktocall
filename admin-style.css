@@ -1,0 +1,24 @@
+#pluginclicktocall {
+
+}
+#pluginclicktocall label {
+width:250px;
+display:inline-table;
+}
+#pluginclicktocall ul {
+list-style-type:none;
+display:block;
+width:auto;
+height:400px;
+}
+#pluginclicktocall li {
+position:absolute;
+}
+#pluginclicktocall li h2 {
+font-size:1.16em;
+font-weight:bold;
+}
+#pluginclicktocall li h3 {
+font-size:1.14em;
+font-weight:bold;
+}
